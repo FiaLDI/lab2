@@ -13,45 +13,38 @@ def get_worker():
     name = input("Фамилия и инициалы? ")
     post = input("Должность? ")
     year = int(input("Год поступления? "))
+
     return {
-    'name': name,
-        'post': post,
-        'year': year,
+        "name": name,
+        "post": post,
+        "year": year,
     }
 
 
 def display_workers(staff):
-   """
-   Отобразить список работников.
+    """
+    Отобразить список работников.
     """
     if staff:
-        line = '+-{}-+-{}-+-{}-+-{}-+'.format(
-        '-' * 4,
-            '-' * 30,
-            '-' * 20,
-            '-' * 8
-        )
+        line = "+-{}-+-{}-+-{}-+-{}-+".format("-" * 4, "-" * 30, "-" * 20, "-" * 8)
         print(line)
         print(
-        '| {:^4} | {:^30} | {:^20} | {:^8} |'.format(
-            "№",
-            "Ф.И.О.",
-            "Должность",
-            "Год"
-        )
+            "| {:^4} | {:^30} | {:^20} | {:^8} |".format(
+                "№", "Ф.И.О.", "Должность", "Год"
+            )
         )
         print(line)
         for idx, worker in enumerate(staff, 1):
-        print(
-            '| {:>4} | {:<30} | {:<20} | {:>8} |'.format(
-                idx,
-            worker.get('name', ''),
-            worker.get('post', ''),
-            worker.get('year', 0)
+            print(
+                "| {:>4} | {:<30} | {:<20} | {:>8} |".format(
+                    idx,
+                    worker.get("name", ""),
+                    worker.get("post", ""),
+                    worker.get("year", 0),
+                )
             )
-        )
-    print(line)
-        
+        print(line)
+
     else:
         print("Список работников пуст.")
 
@@ -63,9 +56,9 @@ def select_workers(staff, period):
     today = date.today()
     result = []
     for employee in staff:
-        if today.year - employee.get('year', today.year) >= period:
+        if today.year - employee.get("year", today.year) >= period:
             result.append(employee)
-            
+
     return result
 
 
@@ -75,32 +68,32 @@ def save_workers(file_name, staff):
     """
     with open(file_name, "w", encoding="utf-8") as fout:
         json.dump(staff, fout, ensure_ascii=False, indent=4)
-       
-       
+
+
 def load_workers(file_name):
     """
     Загрузить всех работников из файла JSON.
     """
     with open(file_name, "r", encoding="utf-8") as fin:
         return json.load(fin)
-    
+
 
 def main():
     """
     Главная функция программы.
     """
     workers = []
-    
+
     while True:
         command = input(">>> ").lower()
         if command == "exit":
             break
-            
+
         elif command == "add":
             worker = get_worker()
             workers.append(worker)
             if len(workers) > 1:
-                workers.sort(key=lambda item: item.get('name', ''))
+                workers.sort(key=lambda item: item.get("name", ""))
         elif command == "list":
             display_workers(workers)
 
@@ -109,19 +102,19 @@ def main():
             period = int(parts[1])
             selected = select_workers(workers, period)
             display_workers(selected)
-            
-            elif command.startswith("save "):
+
+        elif command.startswith("save "):
             parts = command.split(maxsplit=1)
             file_name = parts[1]
 
             save_workers(file_name, workers)
-            
+
         elif command.startswith("load "):
             parts = command.split(maxsplit=1)
             file_name = parts[1]
-            
+
             workers = load_workers(file_name)
-        elif command == 'help':
+        elif command == "help":
             print("Список команд:\n")
             print("add - добавить работника;")
             print("list - вывести список работников;")
@@ -134,5 +127,5 @@ def main():
             print(f"Неизвестная команда {command}", file=sys.stderr)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
