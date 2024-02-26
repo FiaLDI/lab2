@@ -6,7 +6,6 @@ from jsonschema import validate
 
 
 if __name__ == "__main__":
-
     schema = {
         "type": "object",
         "properties": {

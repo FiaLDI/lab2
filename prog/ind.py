@@ -25,7 +25,9 @@ def display_products(workers):
     Отобразить список работников.
     """
     if workers:
-        line = "+-{}-+-{}-+-{}-+-{}-+".format("-" * 4, "-" * 30, "-" * 20, "-" * 10)
+        line = "+-{}-+-{}-+-{}-+-{}-+".format(
+            "-" * 4, "-" * 30, "-" * 20, "-" * 10
+        )
         print(line)
         print(
             "| {:^4} | {:^30} | {:^20} | {:^10} |".format(
@@ -114,7 +116,7 @@ def main():
 
             file_name = parts[1]
 
-            workers = load_products(file_name)
+            products = load_products(file_name)
 
         else:
             print(f"Неизвестная команда {command}", file=sys.stderr)
